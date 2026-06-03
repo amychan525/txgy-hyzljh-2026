@@ -1,0 +1,470 @@
+/* ============== 全局 ============== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  /* 主色调：品牌红 */
+  --primary: #e8404a;
+  --primary-hover: #d6353f;
+  --primary-deep: #b3242e;
+  --primary-soft: #fdecee;     /* 极浅粉红，仅 badge / hover */
+  --primary-line: #f4c5c9;     /* 柔和边框 */
+
+  /* 中性 */
+  --bg: #f5f6f8;
+  --card: #ffffff;
+  --border: #eceef1;
+  --border-strong: #d9dce0;
+  --text: #1f1f24;
+  --text-soft: #595965;
+  --text-mute: #8a8a93;
+  --neutral-bg: #f8f9fa;       /* 卡内嵌套灰底 */
+
+  /* 高亮文字（红） */
+  --hl: #c8323b;
+
+  --shadow: 0 1px 2px rgba(0,0,0,0.03), 0 4px 12px rgba(0,0,0,0.04);
+  --radius: 10px;
+}
+html, body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif; font-size: 15px; line-height: 1.6; }
+body { padding-bottom: 80px; }
+ul, ol { padding-left: 1.2em; }
+li { margin: 4px 0; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ============== 顶部 Header（单色，简约） ============== */
+.header { background: var(--primary); color: #fff; padding: 28px 20px 24px; }
+.header-inner { max-width: 920px; margin: 0 auto; }
+.header-title { font-size: 24px; font-weight: 700; letter-spacing: 0.3px; }
+.header-subtitle { font-size: 15px; margin-top: 4px; opacity: 0.92; }
+.header-meta { font-size: 13px; opacity: 0.88; margin-top: 12px; }
+.meta-sep { margin: 0 8px; opacity: 0.5; }
+
+/* ============== Section Card 折叠 ============== */
+.intro-sections, .footer-info { max-width: 920px; margin: 16px auto 0; padding: 0 16px; }
+.section-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 12px; overflow: hidden; }
+.section-title { padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; font-size: 16px; font-weight: 700; color: var(--text); border-bottom: 1px solid transparent; }
+.section-title:hover { background: var(--neutral-bg); }
+.section-card.expanded .section-title { border-bottom-color: var(--border); }
+.toggle-icon { font-size: 12px; color: var(--text-mute); transition: transform .2s; }
+.section-card.expanded .toggle-icon { transform: rotate(180deg); }
+.section-content { padding: 16px 18px; max-height: 5000px; transition: max-height .3s ease, padding .3s ease; }
+.section-content.collapsed { max-height: 0; padding: 0 18px; overflow: hidden; }
+
+.sub-h3 { font-size: 15px; font-weight: 700; color: var(--text); margin: 16px 0 8px; padding-left: 8px; border-left: 3px solid var(--primary); }
+.bullet-list { padding-left: 1.4em; color: var(--text-soft); }
+.bullet-list.small { font-size: 13px; color: var(--text-mute); }
+.bg-para { color: var(--text-soft); margin-bottom: 10px; text-align: justify; }
+
+/* 准入：激励类型卡（统一中性配色） */
+.type-list { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+.type-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; background: var(--neutral-bg); }
+.type-name { font-weight: 700; color: var(--primary-deep); margin-bottom: 6px; }
+.type-goal { color: var(--text-soft); font-size: 13.5px; margin-bottom: 8px; }
+.type-points { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.type-tag { font-size: 12px; padding: 3px 10px; background: #fff; color: var(--primary-deep); border: 1px solid var(--primary-line); border-radius: 999px; }
+.type-tag.clickable { cursor: pointer; transition: all .15s ease; }
+.type-tag.clickable:hover { background: var(--primary); color: #fff; border-color: var(--primary); transform: translateY(-1px); box-shadow: 0 2px 6px rgba(232,30,53,0.18); }
+.type-tag.clickable:active { transform: translateY(0); }
+.type-extra { margin-top: 10px; padding: 10px 12px; background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--primary); border-radius: 6px; font-size: 13px; color: var(--text-soft); white-space: pre-wrap; }
+
+/* 如何参与（中性背景 + 主色编号） */
+.howto-intro { color: var(--text-soft); margin-bottom: 12px; }
+.howto-steps { display: flex; flex-direction: column; gap: 10px; }
+.howto-step { display: flex; gap: 12px; padding: 12px 14px; background: var(--neutral-bg); border: 1px solid var(--border); border-radius: var(--radius); }
+.howto-num { width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; }
+.howto-title { font-weight: 700; margin-bottom: 4px; }
+.howto-desc { color: var(--text-soft); font-size: 13.5px; }
+.howto-tips { margin-top: 14px; padding: 12px 14px; background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--primary); border-radius: 6px; }
+.tips-title { font-weight: 700; color: var(--primary-deep); margin-bottom: 6px; }
+.howto-tips ul { padding-left: 1.4em; color: var(--text-soft); font-size: 13.5px; }
+
+/* ============== 月度规则 标题 ============== */
+.rules-heading { max-width: 920px; margin: 24px auto 8px; padding: 0 16px; }
+.rules-heading h2 { font-size: 20px; font-weight: 800; }
+.rules-subtitle { font-size: 13px; color: var(--text-mute); margin-top: 4px; }
+.rules-subtitle-link { margin-top: 6px; color: var(--text-soft); }
+.rules-subtitle-link a { color: var(--primary); font-weight: 700; }
+.rules-subtitle-link a:hover { color: var(--primary-deep); }
+
+/* ============== 月份导航（吸顶） ============== */
+.month-nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+.month-nav-inner { max-width: 920px; margin: 0 auto; padding: 10px 12px; display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.month-btn { flex-shrink: 0; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--border); background: #fff; cursor: pointer; font-size: 13.5px; color: var(--text); transition: all .15s; }
+.month-btn:hover { border-color: var(--primary); color: var(--primary-deep); }
+.month-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 700; }
+.current-tag { font-size: 10px; background: rgba(255,255,255,0.25); padding: 1px 6px; border-radius: 4px; margin-left: 4px; }
+.month-btn:not(.active) .current-tag { background: var(--primary-soft); color: var(--primary-deep); }
+
+/* ============== 激励点 Tab ============== */
+.point-tabs { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 47px; z-index: 49; }
+.point-tabs-inner { max-width: 920px; margin: 0 auto; padding: 8px 12px; display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.point-tab { flex-shrink: 0; padding: 8px 12px; border-radius: 8px; border: 1px solid transparent; background: transparent; cursor: pointer; font-size: 13px; color: var(--text-soft); display: inline-flex; align-items: center; gap: 6px; }
+.point-tab .tab-idx { width: 20px; height: 20px; line-height: 20px; text-align: center; border-radius: 50%; background: var(--bg); color: var(--text-mute); font-size: 11px; font-weight: 700; }
+.point-tab.active { background: var(--primary-soft); border-color: var(--primary-line); color: var(--primary-deep); font-weight: 700; }
+.point-tab.active .tab-idx { background: var(--primary); color: #fff; }
+
+/* ============== 主内容区 ============== */
+.main-content { max-width: 920px; margin: 16px auto 0; padding: 0 16px; }
+.point-header { margin-bottom: 14px; }
+.point-name { font-size: 20px; font-weight: 800; color: var(--primary-deep); padding-left: 10px; border-left: 4px solid var(--primary); }
+.month-title-bar { font-size: 15px; font-weight: 700; color: var(--text); padding: 10px 14px; background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--primary); border-radius: var(--radius); margin-bottom: 14px; }
+
+/* ============== 通用：可折叠卡片 ============== */
+.collapse-card .collapse-body { max-height: 5000px; overflow: hidden; transition: max-height .3s ease, opacity .25s ease; opacity: 1; }
+.collapse-card.collapsed .collapse-body { max-height: 0; opacity: 0; }
+.collapse-toggle { background: transparent; border: 1px solid var(--border-strong); color: var(--text-soft); padding: 3px 12px; border-radius: 999px; cursor: pointer; font-size: 12.5px; font-weight: 500; transition: all .15s; }
+.collapse-toggle:hover { border-color: var(--primary); color: var(--primary-deep); }
+
+/* ============== 激励要点（6 字段卡） ============== */
+.overview-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 0; box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; }
+.overview-head { padding: 12px 16px; font-weight: 700; color: var(--text); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #fff; }
+.overview-card.collapsed .overview-head { border-bottom-color: transparent; }
+.overview-body { padding: 4px 0; }
+.ov-row { display: flex; gap: 14px; padding: 10px 16px; border-bottom: 1px dashed var(--border); }
+.ov-row:last-child { border-bottom: none; }
+.ov-k { flex-shrink: 0; width: 90px; font-weight: 700; color: var(--primary-deep); font-size: 13.5px; }
+.ov-v { flex: 1; color: var(--text-soft); font-size: 13.5px; white-space: pre-wrap; }
+
+/* ============== 参与流程 ============== */
+.participation-block { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 0; box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; }
+.block-head { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+.participation-block.collapsed .block-head { border-bottom-color: transparent; }
+.block-title { font-weight: 700; color: var(--text); }
+.participation-block .collapse-body { padding: 14px 16px 16px; }
+.participation-block.collapsed .collapse-body { padding-top: 0; padding-bottom: 0; }
+.proc-steps { display: flex; flex-direction: column; gap: 10px; }
+.proc-step { display: flex; gap: 12px; padding: 12px; border: 1px solid var(--border); background: var(--neutral-bg); border-radius: var(--radius); }
+.proc-num { width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12.5px; }
+.proc-title { font-weight: 700; margin-bottom: 4px; }
+.proc-desc { color: var(--text-soft); font-size: 13.5px; }
+.proc-links { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; }
+.step-link { display: inline-block; padding: 4px 12px; font-size: 12.5px; background: #fff; color: var(--primary-deep); border-radius: 6px; border: 1px solid var(--primary-line); transition: all .15s; }
+.step-link:hover { background: var(--primary); color: #fff; text-decoration: none; }
+.step-link.disabled { background: #f4f4f6; color: var(--text-mute); border-color: var(--border); cursor: not-allowed; pointer-events: none; }
+.step-link.disabled:hover { background: #f4f4f6; color: var(--text-mute); }
+
+/* ============== 6月升级 折叠卡（统一主色调） ============== */
+.upgrade-card { border: 1px solid var(--primary-line); background: #fff; border-radius: var(--radius); padding: 12px 14px; margin-bottom: 16px; box-shadow: var(--shadow); border-left: 3px solid var(--primary); }
+.upgrade-head { display: flex; justify-content: space-between; align-items: center; }
+.upgrade-title { display: flex; gap: 8px; align-items: center; }
+.upgrade-tag { background: var(--primary); color: #fff; font-size: 12px; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
+.upgrade-headline { font-weight: 700; color: var(--text); }
+.upgrade-toggle { background: transparent; border: 1px solid var(--primary-line); color: var(--primary-deep); padding: 3px 12px; border-radius: 999px; cursor: pointer; font-size: 12.5px; }
+.upgrade-toggle:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+.upgrade-body { max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s ease, opacity .3s ease; opacity: 0; padding-top: 0; }
+.upgrade-body.open { max-height: 1500px; padding-top: 10px; opacity: 1; }
+.upgrade-summary { color: var(--text-soft); font-size: 13.5px; margin-bottom: 12px; }
+.upgrade-supports { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.up-support { background: var(--neutral-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+.up-support-name { font-weight: 700; color: var(--primary-deep); font-size: 13.5px; margin-bottom: 4px; }
+.up-support-desc { color: var(--text-soft); font-size: 13px; }
+@media (max-width: 600px) { .upgrade-supports { grid-template-columns: 1fr; } }
+
+/* ============== 规则 section ============== */
+.rule-section { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); margin-bottom: 16px; }
+.sec-head { margin-bottom: 10px; }
+.sec-title-line { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.sec-title { font-size: 16px; font-weight: 700; color: var(--text); }
+.sec-intro { color: var(--text-soft); font-size: 13.5px; margin: 8px 0 12px; }
+.kv-row { display: flex; gap: 10px; padding: 6px 0; border-bottom: 1px dashed var(--border); font-size: 13.5px; }
+.kv-row:last-of-type { border-bottom: none; margin-bottom: 8px; }
+.kv-k { flex-shrink: 0; width: 70px; color: var(--primary-deep); font-weight: 700; }
+.kv-v { flex: 1; color: var(--text-soft); white-space: pre-wrap; }
+/* 参与方法内嵌链接（如「好事小红花激励申请表」） */
+.method-link-row { margin-top: 8px; }
+.method-link {
+  display: inline-block;
+  padding: 5px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-deep);
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-line);
+  border-radius: 6px;
+  transition: all .15s ease;
+}
+.method-link:hover { background: var(--primary); color: #fff; border-color: var(--primary); text-decoration: none; }
+
+/* ============== 池子 badge（统一主色调，区分明度） ============== */
+.pool-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px 3px 4px; border-radius: 999px; font-size: 12.5px; font-weight: 700; }
+.pool-badge .pool-label { padding: 2px 8px; border-radius: 999px; font-size: 11.5px; }
+/* 资金池：实色 */
+.pool-badge.fund { background: var(--primary); color: #fff; padding: 3px 10px; }
+.pool-badge.fund .pool-label { background: rgba(255,255,255,0.2); color: #fff; }
+/* 流量池：描边反白（同主色调） */
+.pool-badge.flow { background: #fff; color: var(--primary-deep); border: 1px solid var(--primary); padding: 2px 10px 2px 4px; }
+.pool-badge.flow .pool-label { background: var(--primary-soft); color: var(--primary-deep); }
+.pool-val { padding-left: 2px; }
+/* 资金池框内尾注：先到先得，拨完即止 */
+.pool-fund-tip {
+  margin-left: 8px;
+  padding-left: 10px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.92);
+  border-left: 1px solid rgba(255,255,255,0.32);
+}
+/* 兼容：保留旧类，外置小尾注（已不再使用，但避免缓存样式异常） */
+.pool-tip { display: none; }
+
+/* ============== 数据表格 ============== */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 6px; border: 1px solid var(--border); border-radius: var(--radius); }
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th, .data-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); vertical-align: middle; line-height: 1.55; }
+.data-table th:last-child, .data-table td:last-child { border-right: none; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table thead th { background: var(--neutral-bg); font-weight: 700; color: var(--text); white-space: nowrap; }
+.data-table td.hl { color: var(--text); font-weight: 700; }
+
+/* "荧光笔"标注：浅黄底色，用于强调本月规则变化（不喧宾夺主）；可用于特别说明、标题、intro、extra、tiers 等任意场景 */
+.hl-mark {
+  background-color: #fff3a8;
+  padding: 1px 4px;
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* ============== 子区段 ============== */
+.sub-section { margin-top: 14px; padding: 14px; border: 1px dashed var(--border-strong); border-radius: var(--radius); background: var(--neutral-bg); }
+.sub-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 8px; }
+.sub-title { font-weight: 700; color: var(--primary-deep); font-size: 14.5px; }
+
+/* ============== 备注 / 特别说明 / extra（统一中性） ============== */
+.notes-list { padding-left: 1.4em; color: var(--text-soft); font-size: 13px; margin-top: 10px; }
+.special-notes { margin-top: 12px; background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--primary); border-radius: 6px; padding: 10px 12px; }
+.special-title { font-weight: 700; color: var(--primary-deep); margin-bottom: 6px; font-size: 13.5px; }
+.special-notes ul { padding-left: 1.4em; color: var(--text-soft); font-size: 13px; }
+.extra-block { margin-top: 12px; padding: 10px 12px; background: var(--neutral-bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text-soft); font-size: 13.5px; }
+
+/* ============== 激励准入卡（点 4 / 点 5，默认展开支持收起） ============== */
+.entry-req-card { background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--primary); border-radius: var(--radius); padding: 0; box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; }
+.entry-req-card .block-head { padding: 12px 16px; background: #fff; }
+.entry-req-card.collapsed .block-head { border-bottom-color: transparent; }
+.entry-req-card .collapse-body { padding: 12px 16px 14px; }
+.entry-req-card.collapsed .collapse-body { padding-top: 0; padding-bottom: 0; }
+.entry-req-intro { color: var(--text-soft); font-size: 13.5px; margin-bottom: 8px; }
+.entry-req-list { padding-left: 1.4em; color: var(--text-soft); font-size: 13px; }
+.entry-req-list li { margin: 5px 0; }
+
+/* ============== 单链接型参与方式（创意提案申请） ============== */
+.proc-link-only { padding: 4px 0 2px; }
+.proc-intro { color: var(--text-soft); font-size: 13.5px; margin-bottom: 10px; line-height: 1.6; }
+.proc-link-only .step-link { padding: 7px 16px; font-size: 13px; }
+
+/* ============== 公式 ============== */
+.formula-card { background: #fff; border: 1px solid var(--primary-line); border-left: 3px solid var(--primary); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; box-shadow: var(--shadow); margin-bottom: 16px; }
+.formula-label { background: var(--primary); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+.formula-text { font-weight: 700; color: var(--primary-deep); font-size: 14.5px; }
+
+/* ============== 激励点6：评分卡可视化 ============== */
+.entry-card { background: var(--neutral-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; margin: 8px 0 12px; }
+.entry-head { font-weight: 700; color: var(--primary-deep); margin-bottom: 6px; font-size: 13.5px; }
+.entry-list { padding-left: 1.4em; color: var(--text-soft); font-size: 13px; }
+.tier-card { background: #fff; border: 1px solid var(--primary-line); border-radius: var(--radius); padding: 0; margin-bottom: 14px; overflow: hidden; }
+.tier-head { padding: 10px 14px; font-weight: 700; color: var(--primary-deep); font-size: 13.5px; background: var(--primary-soft); border-bottom: 1px solid var(--primary-line); }
+.tier-body { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); }
+.tier-row { background: #fff; padding: 10px 14px; display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.tier-range { color: var(--text-soft); font-size: 13px; }
+.tier-amount { color: var(--hl); font-weight: 800; font-size: 14px; }
+@media (max-width: 600px) { .tier-body { grid-template-columns: 1fr; } }
+
+.dim-list { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+.dim-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.dim-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--neutral-bg); border-bottom: 1px solid var(--border); }
+.dim-name { font-weight: 700; color: var(--text); }
+.dim-total { font-weight: 800; color: var(--hl); font-size: 18px; }
+.dim-unit { font-size: 13px; margin-left: 2px; opacity: 0.8; }
+.dim-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.dim-table th, .dim-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; }
+.dim-table thead th { background: #fff; font-weight: 700; color: var(--text-soft); font-size: 12.5px; }
+.dim-table tr:last-child td { border-bottom: none; }
+.dim-label { font-weight: 700; color: var(--text); width: 28%; }
+.dim-rule { color: var(--text-soft); white-space: pre-wrap; }
+.dim-full { width: 60px; text-align: center; color: var(--hl); font-weight: 800; font-size: 14px; }
+
+.dim-simple-list { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.dim-simple { background: var(--neutral-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+.dim-simple-name { font-weight: 700; color: var(--primary-deep); margin-bottom: 6px; font-size: 13.5px; }
+.dim-simple-items { display: flex; flex-wrap: wrap; gap: 6px; }
+.dim-tag { font-size: 12px; padding: 3px 10px; background: #fff; border: 1px solid var(--border); color: var(--text-soft); border-radius: 999px; }
+
+/* ============== 附录 ============== */
+.ap-updated { color: var(--text-mute); font-size: 12.5px; margin-bottom: 8px; }
+.ap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.ap-card { background: var(--neutral-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+.ap-head { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+.ap-idx { width: 22px; height: 22px; line-height: 22px; border-radius: 50%; background: var(--primary); color: #fff; text-align: center; font-size: 12px; font-weight: 800; }
+.ap-type { font-weight: 700; color: var(--primary-deep); }
+.ap-row { display: flex; gap: 8px; padding: 4px 0; font-size: 12.5px; }
+.ap-k { flex-shrink: 0; width: 70px; color: var(--primary-deep); font-weight: 700; }
+.ap-v { flex: 1; color: var(--text-soft); white-space: pre-wrap; }
+.ap-common { margin-top: 14px; padding: 10px 12px; background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--primary); border-radius: 6px; }
+.ap-common-title { font-weight: 700; color: var(--primary-deep); margin-bottom: 4px; font-size: 13.5px; }
+.ap-common ul { padding-left: 1.4em; color: var(--text-soft); font-size: 13px; }
+@media (max-width: 700px) { .ap-grid { grid-template-columns: 1fr; } }
+
+/* ============== 资金拨付 / 名词 ============== */
+.fund-block { padding: 12px 0; border-bottom: 1px dashed var(--border); }
+.fund-block:last-child { border-bottom: none; }
+.fund-block-title { font-weight: 700; color: var(--primary-deep); margin-bottom: 8px; }
+.fund-block ul, .fund-block ol { color: var(--text-soft); font-size: 13.5px; }
+.fund-block p { color: var(--text-soft); font-size: 13.5px; margin: 6px 0; }
+.contact-block { margin-top: 10px; padding: 10px 12px; background: var(--primary-soft); border-radius: 6px; }
+.contact-block p { color: var(--primary-deep); }
+
+.gloss-row { padding: 10px 0; border-bottom: 1px dashed var(--border); }
+.gloss-row:last-child { border-bottom: none; }
+.gloss-term { font-weight: 700; color: var(--primary-deep); margin-bottom: 4px; }
+.gloss-def { color: var(--text-soft); font-size: 13.5px; }
+
+/* ============== 页脚 ============== */
+.footer-heading { max-width: 920px; margin: 24px auto 8px; padding: 0 16px; font-size: 18px; font-weight: 800; }
+.page-footer { text-align: center; padding: 24px 16px; color: var(--text-mute); font-size: 13px; }
+.footer-small { font-size: 12px; opacity: 0.7; margin-top: 4px; }
+
+.empty { text-align: center; padding: 40px; color: var(--text-mute); }
+
+/* ==============================================================
+   移动端专项适配（<= 600px）
+   ============================================================== */
+@media (max-width: 600px) {
+  /* — 全局字号 / 行高收敛 — */
+  html, body { font-size: 14px; }
+  ul, ol { padding-left: 1em; }
+
+  /* — Header — */
+  .header { padding: 20px 16px 18px; }
+  .header-title { font-size: 20px; }
+  .header-subtitle { font-size: 14px; }
+  .header-meta { font-size: 12px; margin-top: 8px; }
+
+  /* — 介绍区 / 底部说明 — */
+  .intro-sections, .footer-info { padding: 0 10px; margin-top: 12px; }
+  .section-title { padding: 12px 14px; font-size: 15px; }
+  .section-content { padding: 12px 14px; }
+
+  /* — 规则标题 — */
+  .rules-heading { padding: 0 12px; margin: 18px auto 6px; }
+  .rules-heading h2 { font-size: 17px; }
+  .rules-subtitle { font-size: 12px; }
+
+  /* — 月份导航（吸顶 + 横滑增强） — */
+  .month-nav-inner { padding: 8px 10px; gap: 6px; }
+  .month-btn { padding: 6px 12px; font-size: 12.5px; }
+  .current-tag { font-size: 9px; padding: 1px 4px; }
+
+  /* — 激励点 Tab（吸顶 + 横滑增强） — */
+  .point-tabs { top: 42px; }
+  .point-tabs-inner { padding: 6px 10px; gap: 4px; }
+  .point-tab { padding: 6px 10px; font-size: 12px; }
+  .point-tab .tab-idx { width: 18px; height: 18px; line-height: 18px; font-size: 10px; }
+
+  /* — 主内容区 — */
+  .main-content { padding: 0 10px; margin-top: 12px; }
+
+  /* — 激励点标题 — */
+  .point-name { font-size: 17px; }
+  .month-title-bar { font-size: 14px; padding: 8px 12px; }
+
+  /* — 概览卡（overview） — */
+  .overview-head { padding: 10px 12px; font-size: 14px; }
+  .overview-body { padding: 2px 0; }
+  .ov-row { padding: 8px 12px; gap: 10px; flex-direction: column; }
+  .ov-k { width: auto; font-size: 13px; }
+  .ov-v { font-size: 13px; }
+
+  /* — 参与流程 — */
+  .participation-block .collapse-body { padding: 10px 12px 12px; }
+  .block-head { padding: 10px 12px; }
+  .proc-step { padding: 10px; gap: 10px; flex-direction: column; }
+  .proc-num { width: 26px; height: 26px; font-size: 11px; }
+  .proc-title { font-size: 14px; }
+  .proc-desc { font-size: 13px; }
+  .proc-links { gap: 6px; }
+  .step-link { padding: 5px 10px; font-size: 12px; }
+
+  /* — 激励准入卡 — */
+  .entry-req-card .block-head { padding: 10px 12px; }
+  .entry-req-card .collapse-body { padding: 10px 12px 12px; }
+  .entry-req-intro { font-size: 13px; }
+  .entry-req-list { font-size: 12.5px; }
+
+  /* — 折叠按钮 —— 加大点击区 — */
+  .collapse-toggle { padding: 6px 14px; font-size: 13px; min-height: 32px; min-width: 56px; }
+  .upgrade-toggle { padding: 6px 14px; font-size: 13px; min-height: 32px; }
+
+  /* — 规则 section — */
+  .rule-section { padding: 12px; }
+  .sec-title { font-size: 15px; }
+  .sec-intro { font-size: 13px; }
+  .kv-row { flex-direction: column; gap: 2px; padding: 5px 0; }
+  .kv-k { width: auto; font-size: 13px; }
+  .kv-v { font-size: 13px; }
+
+  /* — 数据表格横滚 + 字号适配 — */
+  .table-wrap { border-radius: 8px; }
+  .data-table { font-size: 12px; }
+  .data-table th, .data-table td { padding: 8px 8px; }
+
+  /* — 池子 badge — */
+  .pool-badge { font-size: 11.5px; padding: 2px 8px; }
+  .pool-fund-tip { font-size: 10.5px; }
+
+  /* — 子区段 — */
+  .sub-section { padding: 10px; margin-top: 10px; }
+  .sub-title { font-size: 13.5px; }
+
+  /* — 备注 / 特别说明 — */
+  .notes-list { font-size: 12.5px; }
+  .special-notes { padding: 8px 10px; }
+  .special-title { font-size: 13px; }
+  .special-notes ul { font-size: 12.5px; }
+  .extra-block { font-size: 13px; padding: 8px 10px; }
+
+  /* — 公式卡 — */
+  .formula-card { padding: 10px 12px; gap: 8px; flex-direction: column; align-items: flex-start; }
+  .formula-label { font-size: 11px; padding: 3px 8px; }
+  .formula-text { font-size: 13.5px; }
+
+  /* — 评分卡（激励点6） — */
+  .entry-card { padding: 10px 12px; }
+  .dim-head { padding: 8px 12px; }
+  .dim-name { font-size: 14px; }
+  .dim-total { font-size: 16px; }
+  .dim-table th, .dim-table td { padding: 6px 8px; font-size: 12px; }
+  .dim-label { width: 30%; }
+
+  /* — 附录 — */
+  .ap-grid { grid-template-columns: 1fr; gap: 8px; }
+  .ap-card { padding: 10px 12px; }
+  .ap-row { font-size: 12px; }
+
+  /* — 升级卡 — */
+  .upgrade-card { padding: 10px 12px; }
+  .upgrade-headline { font-size: 14px; }
+
+  /* — 如何参与步骤卡 — */
+  .howto-step { flex-direction: column; gap: 8px; padding: 10px 12px; }
+  .howto-num { width: 28px; height: 28px; font-size: 12px; }
+  .howto-title { font-size: 14px; }
+  .howto-desc { font-size: 13px; }
+  .howto-tips { padding: 10px 12px; }
+  .howto-tips ul { font-size: 13px; }
+
+  /* — 准入要求：类型卡 — */
+  .type-card { padding: 10px 12px; }
+  .type-name { font-size: 14px; }
+  .type-goal { font-size: 13px; }
+  .type-extra { padding: 8px 10px; font-size: 12.5px; }
+
+  /* — 页脚 — */
+  .footer-heading { font-size: 16px; margin: 18px auto 6px; padding: 0 12px; }
+  .page-footer { padding: 18px 12px; font-size: 12px; }
+
+  /* — 名词解释 / 资金拨付 — */
+  .gloss-term { font-size: 14px; }
+  .gloss-def { font-size: 13px; }
+  .fund-block ul, .fund-block ol, .fund-block p { font-size: 13px; }
+  .contact-block { padding: 8px 10px; }
+}
