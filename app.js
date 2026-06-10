@@ -15,11 +15,12 @@ function escHtml(s) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
-// 把换行转 <br>，保留普通文本；同时支持内嵌荧光笔 token：{{hl:xxx}} → <span class="hl-mark">xxx</span>
+// 把换行转 <br>，保留普通文本；同时支持内嵌荧光笔 token：{{hl:xxx}} → <span class="hl-mark">xxx</span>，以及内嵌链接 token：{{link:url|text}} → <a href="url" target="_blank" rel="noopener">text</a>
 // 注意先 escHtml 再做 token 还原，token 内文字也已被 escHtml 过，所以是安全的
 function nl2br(s) {
   return escHtml(s)
     .replace(/\{\{hl:([\s\S]+?)\}\}/g, '<span class="hl-mark">$1</span>')
+    .replace(/\{\{link:([^|]+?)\|([\s\S]+?)\}\}/g, '<a href="$1" target="_blank" rel="noopener">$2</a>')
     .replace(/\n/g, '<br>');
 }
 
