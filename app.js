@@ -15,12 +15,13 @@ function escHtml(s) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
-// 把换行转 <br>，保留普通文本；同时支持内嵌荧光笔 token：{{hl:xxx}} → <span class="hl-mark">xxx</span>，以及内嵌链接 token：{{link:url|text}} → <a href="url" target="_blank" rel="noopener">text</a>
+// 把换行转 <br>，保留普通文本；同时支持内嵌荧光笔 token：{{hl:xxx}} → <span class="hl-mark">xxx</span>，以及内嵌链接 token：{{link:url|text}} → <a href="url" target="_blank" rel="noopener">text</a>，以及双星号加粗 **text** → <strong>text</strong>
 // 注意先 escHtml 再做 token 还原，token 内文字也已被 escHtml 过，所以是安全的
 function nl2br(s) {
   return escHtml(s)
     .replace(/\{\{hl:([\s\S]+?)\}\}/g, '<span class="hl-mark">$1</span>')
     .replace(/\{\{link:([^|]+?)\|([\s\S]+?)\}\}/g, '<a href="$1" target="_blank" rel="noopener">$2</a>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\n/g, '<br>');
 }
 
@@ -273,10 +274,11 @@ function poolBadge(text, type) {
   return `<span class="${cls}"><span class="pool-label">${label}</span><span class="pool-val">${escHtml(value)}</span>${innerTip}</span>`;
 }
 
-/* ============== 渲染：6月 upgrade 折叠卡片 ============== */
+/* ============== 渲染：6月 / 7月 upgrade 折叠卡片 ============== */
 
-function renderUpgrade(up) {
+function renderUpgrade(up, monthNum) {
   if (!up) return '';
+  const tagText = monthNum === 7 ? '7月参与指引' : (up.tag || `${monthNum}月升级`);
   const supports = (up.supports || []).map(s => `
     <div class="up-support">
       <div class="up-support-name">${escHtml(s.name)}</div>
@@ -287,7 +289,7 @@ function renderUpgrade(up) {
     <div class="upgrade-card expanded">
       <div class="upgrade-head">
         <div class="upgrade-title">
-          <span class="upgrade-tag">6月升级</span>
+          <span class="upgrade-tag">${escHtml(tagText)}</span>
           <span class="upgrade-headline">多维支持体系</span>
         </div>
         <button type="button" class="upgrade-toggle" onclick="toggleInline(this)">
@@ -379,10 +381,12 @@ function renderEntryAndTiers(sec) {
   let html = '';
   if (sec.entry) {
     const conds = sec.entry.conditions.map(c => `<li>${nl2br(c)}</li>`).join('');
+    const noteHtml = sec.entry.note ? `<div class="entry-note" style="margin-top: 8px; color: var(--text-soft); font-size: 13px; line-height: 1.5; padding-top: 4px; border-top: 1px dashed var(--border);">${nl2br(sec.entry.note)}</div>` : '';
     html += `
       <div class="entry-card">
         <div class="entry-head">激励准入（${escHtml(sec.entry.required || '需同时符合')}）</div>
         <ul class="entry-list">${conds}</ul>
+        ${noteHtml}
       </div>
     `;
   }
@@ -452,7 +456,10 @@ function renderSection(sec) {
   `;
   const intro = sec.intro ? `<p class="sec-intro">${nl2br(sec.intro)}</p>` : '';
   const methodLinkHtml = sec.methodLink
-    ? `<a class="method-link" href="${escHtml(sec.methodLink.url)}" target="_blank" rel="noopener">${escHtml(sec.methodLink.label)}</a>`
+    ? `
+      ${sec.methodLink.preText ? `<div class="method-link-pretext" style="color: var(--primary); margin-bottom: 8px; font-size: 13px;">${nl2br(sec.methodLink.preText)}</div>` : ''}
+      <a class="method-link" href="${escHtml(sec.methodLink.url)}" target="_blank" rel="noopener">${escHtml(sec.methodLink.label)}</a>
+    `
     : '';
   const method = sec.method
     ? `<div class="kv-row"><span class="kv-k">参与方法</span><span class="kv-v">${nl2br(sec.method)}${methodLinkHtml ? `<div class="method-link-row">${methodLinkHtml}</div>` : ''}</span></div>`
@@ -487,18 +494,27 @@ function renderSection(sec) {
       `;
       const subIntro = ss.intro ? `<p class="sec-intro">${nl2br(ss.intro)}</p>` : '';
       const subMethodLinkHtml = ss.methodLink
-        ? `<a class="method-link" href="${escHtml(ss.methodLink.url)}" target="_blank" rel="noopener">${escHtml(ss.methodLink.label)}</a>`
+        ? `
+          ${ss.methodLink.preText ? `<div class="method-link-pretext" style="color: var(--primary); margin-bottom: 8px; font-size: 13px;">${nl2br(ss.methodLink.preText)}</div>` : ''}
+          <a class="method-link" href="${escHtml(ss.methodLink.url)}" target="_blank" rel="noopener">${escHtml(ss.methodLink.label)}</a>
+        `
         : '';
       const subMethod = ss.method
         ? `<div class="kv-row"><span class="kv-k">参与方法</span><span class="kv-v">${nl2br(ss.method)}${subMethodLinkHtml ? `<div class="method-link-row">${subMethodLinkHtml}</div>` : ''}</span></div>`
         : (subMethodLinkHtml ? `<div class="kv-row"><span class="kv-k">参与方法</span><span class="kv-v"><div class="method-link-row">${subMethodLinkHtml}</div></span></div>` : '');
+      const subGuideLinkHtml = ss.guideLink
+        ? `<a class="method-link" href="${escHtml(ss.guideLink.url)}" target="_blank" rel="noopener">${escHtml(ss.guideLink.label)}</a>`
+        : '';
+      const subGuide = ss.guide
+        ? `<div class="kv-row"><span class="kv-k">参与指引</span><span class="kv-v">${nl2br(ss.guide)}${subGuideLinkHtml ? `<div class="method-link-row">${subGuideLinkHtml}</div>` : ''}</span></div>`
+        : (subGuideLinkHtml ? `<div class="kv-row"><span class="kv-k">参与指引</span><span class="kv-v"><div class="method-link-row">${subGuideLinkHtml}</div></span></div>` : '');
       const subReward = ss.reward ? `<div class="kv-row"><span class="kv-k">激励规则</span><span class="kv-v">${nl2br(ss.reward)}</span></div>` : '';
       const subTable = renderTable(ss.table);
       const subNotes = (ss.notes || []).length
         ? `<ul class="notes-list">${ss.notes.map(n => `<li>${nl2br(n)}</li>`).join('')}</ul>` : '';
       const subSpecials = (ss.specialNotes || []).length
         ? `<div class="special-notes"><div class="special-title">特别说明</div><ul>${ss.specialNotes.map(renderSpecialNoteItem).join('')}</ul></div>` : '';
-      return `<div class="sub-section">${subHead}${subIntro}${subMethod}${subReward}${subTable}${subNotes}${subSpecials}</div>`;
+      return `<div class="sub-section">${subHead}${subIntro}${subMethod}${subGuide}${subReward}${subTable}${subNotes}${subSpecials}</div>`;
     }).join('');
   }
 
@@ -535,9 +551,9 @@ function renderPointMonth(point, month) {
   // 激励准入（点4 / 点5：默认展开支持收起）
   const entryReqHtml = point.entryRequirement ? renderEntryRequirement(point.entryRequirement) : '';
 
-  // 特殊处理：point2 6月，把顶层参与流程注入到 A 段（sections[0]）内部，默认收起
+  // 特殊处理：point2 6月及之后，把顶层参与流程注入到 A 段（sections[0]）内部，默认收起
   let participationInjected = false;
-  if (point.id === 'point2' && Number(month) === 6 && m.sections && m.sections[0] && point.participation) {
+  if (point.id === 'point2' && Number(month) >= 6 && m.sections && m.sections[0] && point.participation) {
     if (!m.sections[0].participation) m.sections[0].participation = point.participation;
     participationInjected = true;
   }
@@ -548,8 +564,8 @@ function renderPointMonth(point, month) {
     ? renderParticipation(point.participation, { collapsed: true })
     : '';
 
-  // 升级说明（6月）
-  const upgradeHtml = m.upgrade ? renderUpgrade(m.upgrade) : '';
+  // 升级说明（6月/7月）
+  const upgradeHtml = m.upgrade ? renderUpgrade(m.upgrade, month) : '';
 
   // sections
   const secsHtml = (m.sections || []).map(renderSection).join('');
