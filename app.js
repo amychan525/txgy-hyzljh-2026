@@ -20,7 +20,8 @@ function escHtml(s) {
 function nl2br(s) {
   return escHtml(s)
     .replace(/\{\{hl:([\s\S]+?)\}\}/g, '<span class="hl-mark">$1</span>')
-    .replace(/\{\{link:([^|]+?)\|([\s\S]+?)\}\}/g, '<a href="$1" target="_blank" rel="noopener">$2</a>')
+    .replace(/\{\{b:([\s\S]+?)\}\}/g, '<strong>$1</strong>')
+    .replace(/\{\{link:([^|]+?)\|([\s\S]+?)\}\}/g, '<a class="inline-link" href="$1" target="_blank" rel="noopener">$2</a>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\n/g, '<br>');
 }
@@ -178,6 +179,8 @@ function renderTable(tbl) {
   if (!tbl || !tbl.rows || !tbl.rows.length) return '';
   const headers = tbl.headers || [];
   const high = new Set((tbl.highlightCols || []).map(Number));
+  const highBg = new Set((tbl.highlightColsBg || []).map(Number));
+  const rowHigh = new Set((tbl.highlightRows || []).map(Number));
   const rows = tbl.rows;
   const cols = headers.length;
 
@@ -236,16 +239,19 @@ function renderTable(tbl) {
 
   const thead = `<thead><tr>${headers.map(h => `<th>${nl2br(h)}</th>`).join('')}</tr></thead>`;
   const tbody = '<tbody>' + rows.map((row, r) => {
+    const trCls = rowHigh.has(r) ? ' class="hl-row"' : '';
     const tds = row.map((cell, c) => {
       if (skip[r][c]) return '';
       const s = span[r][c];
       if (s === -1) return '';
-      const cls = high.has(c) ? ' class="hl"' : '';
+      let cls = '';
+      if (high.has(c)) cls = ' class="hl"';
+      else if (highBg.has(c) || rowHigh.has(r)) cls = ' class="hl-bg"';
       const rs = s > 1 ? ` rowspan="${s}"` : '';
       const cs = (colspan[r][c] || 1) > 1 ? ` colspan="${colspan[r][c]}"` : '';
       return `<td${cls}${rs}${cs}>${nl2br(cell)}</td>`;
     }).join('');
-    return `<tr>${tds}</tr>`;
+    return `<tr${trCls}>${tds}</tr>`;
   }).join('') + '</tbody>';
 
   return `<div class="table-wrap"><table class="data-table">${thead}${tbody}</table></div>`;
@@ -255,7 +261,9 @@ function renderTable(tbl) {
 function renderSpecialNoteItem(n) {
   if (n && typeof n === 'object' && typeof n.text === 'string') {
     const inner = nl2br(n.text);
-    return n.highlight ? `<li><span class="hl-mark">${inner}</span></li>` : `<li>${inner}</li>`;
+    if (n.highlight) return `<li><span class="hl-mark">${inner}</span></li>`;
+    if (n.bold) return `<li><strong>${inner}</strong></li>`;
+    return `<li>${inner}</li>`;
   }
   return `<li>${nl2br(n)}</li>`;
 }
@@ -278,13 +286,21 @@ function poolBadge(text, type) {
 
 function renderUpgrade(up, monthNum) {
   if (!up) return '';
-  const tagText = monthNum === 7 ? '7月参与指引' : (up.tag || `${monthNum}月升级`);
-  const supports = (up.supports || []).map(s => `
+  const tagText = up.tag || `${monthNum}月参与指引`;
+  const supports = (up.supports || []).map(s => {
+    const poolHtml = s.pool ? `<div class="up-support-pool">${poolBadge(s.pool, s.poolType || 'fund')}</div>` : '';
+    return `
     <div class="up-support">
       <div class="up-support-name">${escHtml(s.name)}</div>
       <div class="up-support-desc">${nl2br(s.desc)}</div>
+      ${poolHtml}
     </div>
-  `).join('');
+  `;
+  }).join('');
+  // supports 网格之后的资金池标签（兼容旧版顶层 pool 字段）
+  const upgradePoolHtml = up.pool
+    ? `<div class="upgrade-pool">${poolBadge(up.pool, up.poolType || 'fund')}</div>`
+    : '';
   return `
     <div class="upgrade-card expanded">
       <div class="upgrade-head">
@@ -299,6 +315,7 @@ function renderUpgrade(up, monthNum) {
       <div class="upgrade-body open">
         <p class="upgrade-summary">${nl2br(up.summary)}</p>
         <div class="upgrade-supports">${supports}</div>
+        ${upgradePoolHtml}
       </div>
     </div>
   `;
@@ -381,7 +398,12 @@ function renderEntryAndTiers(sec) {
   let html = '';
   if (sec.entry) {
     const conds = sec.entry.conditions.map(c => `<li>${nl2br(c)}</li>`).join('');
-    const noteHtml = sec.entry.note ? `<div class="entry-note" style="margin-top: 8px; color: var(--text-soft); font-size: 13px; line-height: 1.5; padding-top: 4px; border-top: 1px dashed var(--border);">${nl2br(sec.entry.note)}</div>` : '';
+    const noteBtnHtml = sec.entry.noteBtn
+      ? `<a class="entry-note-btn" href="${escHtml(sec.entry.noteBtn.url)}" target="_blank" rel="noopener">${escHtml(sec.entry.noteBtn.label)}</a>`
+      : '';
+    const noteHtml = sec.entry.note
+      ? `<div class="entry-note" style="margin-top: 8px; color: var(--text-soft); font-size: 13px; line-height: 1.5; padding-top: 4px; border-top: 1px dashed var(--border); display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"><span>${nl2br(sec.entry.note)}</span>${noteBtnHtml}</div>`
+      : '';
     html += `
       <div class="entry-card">
         <div class="entry-head">激励准入（${escHtml(sec.entry.required || '需同时符合')}）</div>
@@ -464,7 +486,26 @@ function renderSection(sec) {
   const method = sec.method
     ? `<div class="kv-row"><span class="kv-k">参与方法</span><span class="kv-v">${nl2br(sec.method)}${methodLinkHtml ? `<div class="method-link-row">${methodLinkHtml}</div>` : ''}</span></div>`
     : (methodLinkHtml ? `<div class="kv-row"><span class="kv-k">参与方法</span><span class="kv-v"><div class="method-link-row">${methodLinkHtml}</div></span></div>` : '');
+  const guideLinkHtml = sec.guideLink
+    ? (Array.isArray(sec.guideLink)
+        ? sec.guideLink.map(lk => `<a class="method-link" href="${escHtml(lk.url)}" target="_blank" rel="noopener">${escHtml(lk.label)}</a>`).join('')
+        : `<a class="method-link" href="${escHtml(sec.guideLink.url)}" target="_blank" rel="noopener">${escHtml(sec.guideLink.label)}</a>`)
+    : '';
+  const guide = sec.guide
+    ? `<div class="kv-row"><span class="kv-k">参与指引</span><span class="kv-v">${nl2br(sec.guide)}${guideLinkHtml ? `<div class="method-link-row">${guideLinkHtml}</div>` : ''}</span></div>`
+    : (guideLinkHtml ? `<div class="kv-row"><span class="kv-k">参与指引</span><span class="kv-v"><div class="method-link-row">${guideLinkHtml}</div></span></div>` : '');
   const reward = sec.reward ? `<div class="kv-row"><span class="kv-k">激励规则</span><span class="kv-v">${nl2br(sec.reward)}</span></div>` : '';
+  // 表格后、特别说明前的"参与指引"板块（结构与 guide 一致，但位置在 body 后、specials 前）
+  const tailGuideLinkHtml = sec.tailGuide && sec.tailGuide.link
+    ? `<a class="method-link" href="${escHtml(sec.tailGuide.link.url)}" target="_blank" rel="noopener">${escHtml(sec.tailGuide.link.label)}</a>`
+    : '';
+  const tailGuide = sec.tailGuide
+    ? `<div class="kv-row"><span class="kv-k">参与指引</span><span class="kv-v">${escHtml(sec.tailGuide.text || '')}${tailGuideLinkHtml ? `<div class="method-link-row">${tailGuideLinkHtml}</div>` : ''}</span></div>`
+    : '';
+  // 申报按钮（多个，常用于简化版的 B 段——如 8月公益达人内容倡导只有标题+intro+按钮组）
+  const applyButtonsHtml = (sec.applyButtons && sec.applyButtons.length)
+    ? `<div class="apply-buttons-row">${sec.applyButtons.map(b => `<a class="method-link" href="${escHtml(b.url)}" target="_blank" rel="noopener">${escHtml(b.label)}</a>`).join('')}</div>`
+    : '';
 
   let body = '';
   if (isOrgPoint) {
@@ -479,6 +520,18 @@ function renderSection(sec) {
   const specials = (sec.specialNotes || []).length
     ? `<div class="special-notes"><div class="special-title">特别说明</div><ul>${sec.specialNotes.map(renderSpecialNoteItem).join('')}</ul></div>` : '';
   const extra = sec.extra ? `<div class="extra-block">${nl2br(sec.extra)}</div>` : '';
+  // 激励上限（与特别说明风格一致，标题为"激励上限"，内容支持多段落）
+  const capNote = sec.capNote
+    ? `<div class="special-notes"><div class="special-title">激励上限</div><div class="cap-note-body">${nl2br(sec.capNote)}</div></div>`
+    : '';
+  // 企业好事共创特别支持板块（紧跟 capNote 之后）
+  const enterpriseCollab = sec.enterpriseCollab
+    ? `<div class="special-notes"><div class="special-title">${escHtml(sec.enterpriseCollab.title || '企业好事共创特别支持')}</div><div class="cap-note-body">${nl2br(sec.enterpriseCollab.text || '')}${sec.enterpriseCollab.link ? `<div class="method-link-row"><a class="method-link" href="${escHtml(sec.enterpriseCollab.link.url)}" target="_blank" rel="noopener">${escHtml(sec.enterpriseCollab.link.label)}</a></div>` : ''}</div></div>`
+    : '';
+  // 统计说明（与特别说明风格一致，标题为"统计说明"，内容支持多段落）
+  const statNote = sec.statNote
+    ? `<div class="special-notes"><div class="special-title">统计说明</div><div class="cap-note-body">${nl2br(sec.statNote)}</div></div>`
+    : '';
   // section 内嵌的"参与流程 / 参与方式"，默认收起
   const secParticipation = sec.participation ? renderParticipation(sec.participation, { collapsed: true }) : '';
 
@@ -518,7 +571,7 @@ function renderSection(sec) {
     }).join('');
   }
 
-  return `<div class="rule-section">${head}${intro}${method}${reward}${body}${subs}${notes}${extra}${specials}${secParticipation}</div>`;
+  return `<div class="rule-section">${head}${intro}${applyButtonsHtml}${method}${guide}${reward}${body}${subs}${tailGuide}${notes}${extra}${specials}${statNote}${capNote}${enterpriseCollab}${secParticipation}</div>`;
 }
 
 /* ============== 渲染：单激励点的某月 ============== */
@@ -663,6 +716,7 @@ const state = {
 function renderMain() {
   const point = D.incentivePoints[state.pointId];
   if (!point) return;
+  renderMonthBg();
   $('#main-content').innerHTML = `
     <div class="point-header">
       <div class="point-name">${escHtml(point.name)}</div>
@@ -673,6 +727,21 @@ function renderMain() {
   window.scrollTo({ top: $('#point-tabs').offsetTop - 60, behavior: 'smooth' });
 }
 
+function renderMonthBg() {
+  const el = $('#month-bg');
+  if (!el) return;
+  const m = state.month;
+  const bgMap = D.meta.monthBg || {};
+  const content = bgMap[m];
+  if (content) {
+    el.innerHTML = content;
+    el.style.display = '';
+  } else {
+    el.innerHTML = '';
+    el.style.display = 'none';
+  }
+}
+
 function bindMonthNav() {
   document.querySelectorAll('.month-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -680,6 +749,13 @@ function bindMonthNav() {
       btn.classList.add('active');
       state.month = Number(btn.dataset.month);
       renderMain();
+      // 如果该月份有助力背景板块，滚动到该位置
+      const bgEl = $('#month-bg');
+      if (bgEl && bgEl.style.display !== 'none' && bgEl.innerHTML.trim()) {
+        setTimeout(() => {
+          window.scrollTo({ top: bgEl.offsetTop - 70, behavior: 'smooth' });
+        }, 50);
+      }
     });
   });
 }
