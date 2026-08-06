@@ -289,10 +289,12 @@ function renderUpgrade(up, monthNum) {
   const tagText = up.tag || `${monthNum}月参与指引`;
   const supports = (up.supports || []).map(s => {
     const poolHtml = s.pool ? `<div class="up-support-pool">${poolBadge(s.pool, s.poolType || 'fund')}</div>` : '';
+    const linkHtml = s.link ? `<a class="up-support-link" href="${escHtml(s.link.url)}" target="_blank" rel="noopener">${escHtml(s.link.label)}</a>` : '';
     return `
     <div class="up-support">
       <div class="up-support-name">${escHtml(s.name)}</div>
       <div class="up-support-desc">${nl2br(s.desc)}</div>
+      ${linkHtml}
       ${poolHtml}
     </div>
   `;
@@ -657,17 +659,11 @@ function renderAppendix() {
       <div class="ap-row"><span class="ap-k">产品类型</span><span class="ap-v">${nl2br(it.product)}</span></div>
       <div class="ap-row"><span class="ap-k">参与指引</span><span class="ap-v">${nl2br(it.guide)}</span></div>
       <div class="ap-row"><span class="ap-k">相关案例</span><span class="ap-v">${nl2br(it.cases)}</span></div>
-      <div class="ap-row"><span class="ap-k">数据统计</span><span class="ap-v">${nl2br(it.statRange)}</span></div>
     </div>
   `).join('');
   $('#appendix-content').innerHTML = `
-    <p class="ap-updated">${escHtml(a.updated)}</p>
-    <ul class="bullet-list small">${a.notes.map(n => `<li>${nl2br(n)}</li>`).join('')}</ul>
+    <ul class="bullet-list small">${(a.notes || []).map(n => `<li>${nl2br(n)}</li>`).join('')}</ul>
     <div class="ap-grid">${cards}</div>
-    <div class="ap-common">
-      <div class="ap-common-title">公共剔除数据</div>
-      <ul>${a.commonExclude.map(c => `<li>${escHtml(c)}</li>`).join('')}</ul>
-    </div>
   `;
 }
 

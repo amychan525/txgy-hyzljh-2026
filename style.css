@@ -172,6 +172,8 @@ a:hover { text-decoration: underline; }
 .up-support-name { font-weight: 700; color: var(--primary-deep); font-size: 13.5px; margin-bottom: 4px; }
 .up-support-desc { color: var(--text-soft); font-size: 13px; }
 .up-support-pool { margin-top: 8px; }
+.up-support-link { display: inline-block; margin-top: 8px; padding: 7px 16px; background: #fff; border: 1px solid var(--primary); color: var(--primary); border-radius: 999px; font-size: 13px; text-decoration: none; transition: all .15s; }
+.up-support-link:hover { background: var(--primary); color: #fff; }
 .upgrade-pool { margin-top: 12px; text-align: right; }
 .upgrade-pool .pool-badge { display: inline-flex; }
 @media (max-width: 600px) { .upgrade-supports { grid-template-columns: 1fr; } }
