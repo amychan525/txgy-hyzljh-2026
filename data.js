@@ -717,7 +717,7 @@ window.PLAN_DATA = {
           upgrade: {
             summary: '线下传播让公益走进真实生活场景，是放大公益声量、推动公众参与的重要方式。为更好支持公益机构开展线下传播，自2026年6月起，平台将原有的激励金升级为多维支持体系。在公共宣传点位常规投放激励外，新增创意提案激励，鼓励机构与平台共同打造有影响力的公益事件，机构可任选其一或同时参与。',
             supports: [
-              { name: '素材支持', desc: '提供小红花品牌视觉素材及模板，降低设计门槛。', link: { label: '2026年久久公益节主kv素材网盘链接丨提取码: 5a2r', url: 'https://pan.baidu.com/s/1u-PSQSBJUYBaDlEnlFzb0g?pwd=5a2r' } },
+              { name: '素材支持', desc: '提供小红花品牌视觉素材及模板，降低设计门槛。', link: { label: '2026年久久公益节主kv素材（请勿随意修改）', url: 'https://ssv.tencent.com/design-assets/1785923584587812238/1786086618115554060' } },
               { name: '方法支持', desc: '{{hl:与机构共同打磨创意提案，并引入生态资源和渠道助力传播。}}' },
               { name: '案例展示', desc: '优秀案例提炼方法论，在腾讯公益等平台及行业会议中展示。' },
               { name: '激励金', desc: '对完成线下投放或创意落地的项目给予资金支持。', pool: '9月资金池：500万', poolType: 'fund' }
@@ -751,7 +751,7 @@ window.PLAN_DATA = {
                   { num: '01', title: '提交投放画面内容审核', desc: '内容需满足存在「小红花」图案和「一块做好事，戴上小红花」文案，公益机构需填写并提交内容审核表单。', links: [
                     { label: '设计素材下载', url: 'https://designforgood.qq.com/' },
                     { label: '内容审核表单', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_2ee8f3' },
-                    { label: '2026年久久公益节主kv素材网盘链接丨提取码: 5a2r', url: 'https://pan.baidu.com/s/1u-PSQSBJUYBaDlEnlFzb0g?pwd=5a2r' }
+                    { label: '2026年久久公益节主kv素材（请勿随意修改）', url: 'https://ssv.tencent.com/design-assets/1785923584587812238/1786086618115554060' }
                   ]},
                   { num: '02', title: '查看投放画面审核结果', desc: '打开智能表格，在【画面审核】标签页中查看审核状态。', links: [{ label: '【申请表】线下公益投放宣传-激励点2', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_2ee8f3' }] },
                   { num: '03', title: '提交激励申报', desc: '审核通过后，公益机构提交激励申报表单。', links: [{ label: '激励申报表单', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_1a58c1' }] },
