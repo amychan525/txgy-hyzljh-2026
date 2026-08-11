@@ -488,11 +488,11 @@ window.PLAN_DATA = {
         steps: [
           { num: '01', title: '提交投放画面内容审核', desc: '内容需满足存在「小红花」图案和「一块做好事，戴上小红花」文案，公益机构需填写并提交内容审核表单。', links: [
             { label: '设计素材下载', url: 'https://designforgood.qq.com/' },
-            { label: '内容审核表单', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_2ee8f3' }
+            { label: '内容审核表单', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_9ccf3d' }
           ]},
-          { num: '02', title: '查看投放画面审核结果', desc: '打开智能表格，在【画面审核】标签页中查看审核状态。', links: [{ label: '【申请表】线下公益投放宣传-激励点2', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_2ee8f3' }] },
-          { num: '03', title: '提交激励申报', desc: '审核通过后，公益机构提交激励申报表单。', links: [{ label: '激励申报表单', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_1a58c1' }] },
-          { num: '04', title: '查看申报结果', desc: '打开智能表格，在【激励申报】标签页中查看申报审批状态。', links: [{ label: '【申请表】线下公益投放宣传-激励点2', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_1a58c1' }] }
+          { num: '02', title: '查看投放画面审核结果', desc: '打开智能表格，在【画面审核】标签页中查看审核状态。', links: [{ label: '【申请表】线下公益投放宣传-激励点2', url: 'https://doc.weixin.qq.com/smartsheet/s3_AZwACAaCANkCNzeK28UtSTjihaSh1?scode=AJEAIQdfAAo4LgmnghAZwACAaCANk&tab=q979lj&viewId=vukaF8' }] },
+          { num: '03', title: '提交激励申报', desc: '审核通过后，公益机构提交激励申报表单。', links: [{ label: '激励申报表单', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_a04636' }] },
+          { num: '04', title: '查看申报结果', desc: '打开智能表格，在【激励申报】标签页中查看申报审批状态。', links: [{ label: '【申请表】线下公益投放宣传-激励点2', url: 'https://doc.weixin.qq.com/smartsheet/s3_AZwACAaCANkCNnZGtMHf6T12T0CkV?scode=AJEAIQdfAAordoojudAZwACAaCANk&tab=q979lj&viewId=vukaF8' }] }
         ]
       },
       months: {
@@ -750,12 +750,12 @@ window.PLAN_DATA = {
                 steps: [
                   { num: '01', title: '提交投放画面内容审核', desc: '内容需满足存在「小红花」图案和「一块做好事，戴上小红花」文案，公益机构需填写并提交内容审核表单。', links: [
                     { label: '设计素材下载', url: 'https://designforgood.qq.com/' },
-                    { label: '内容审核表单', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_2ee8f3' },
+                    { label: '内容审核表单', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_9ccf3d' },
                     { label: '2026年久久公益节主kv素材（请勿随意修改）', url: 'https://ssv.tencent.com/design-assets/1785923584587812238/1786086618115554060' }
-                  ]},
-                  { num: '02', title: '查看投放画面审核结果', desc: '打开智能表格，在【画面审核】标签页中查看审核状态。', links: [{ label: '【申请表】线下公益投放宣传-激励点2', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_2ee8f3' }] },
-                  { num: '03', title: '提交激励申报', desc: '审核通过后，公益机构提交激励申报表单。', links: [{ label: '激励申报表单', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_1a58c1' }] },
-                  { num: '04', title: '查看申报结果', desc: '打开智能表格，在【激励申报】标签页中查看申报审批状态。', links: [{ label: '【申请表】线下公益投放宣传-激励点2', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_1a58c1' }] }
+                    ]},
+                    { num: '02', title: '查看投放画面审核结果', desc: '打开智能表格，在【画面审核】标签页中查看审核状态。', links: [{ label: '【申请表】线下公益投放宣传-激励点2', url: 'https://doc.weixin.qq.com/smartsheet/s3_AZwACAaCANkCNzeK28UtSTjihaSh1?scode=AJEAIQdfAAo4LgmnghAZwACAaCANk&tab=q979lj&viewId=vukaF8' }] },
+                    { num: '03', title: '提交激励申报', desc: '审核通过后，公益机构提交激励申报表单。', links: [{ label: '激励申报表单', url: 'https://doc.weixin.qq.com/smartsheet/form/1_wpkSFfCgAAIzkZ-F0ncReQFci0uBXXig_a04636' }] },
+                    { num: '04', title: '查看申报结果', desc: '打开智能表格，在【激励申报】标签页中查看申报审批状态。', links: [{ label: '【申请表】线下公益投放宣传-激励点2', url: 'https://doc.weixin.qq.com/smartsheet/s3_AZwACAaCANkCNnZGtMHf6T12T0CkV?scode=AJEAIQdfAAordoojudAZwACAaCANk&tab=q979lj&viewId=vukaF8' }] }
                 ]
               }
             },
